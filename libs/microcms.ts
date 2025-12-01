@@ -1,10 +1,11 @@
-import { createClient } from "microcms-js-sdk";
+import { BlogPosts } from '@/types/api';
+import { createClient, MicroCMSQueries } from 'microcms-js-sdk';
 
 if (!process.env.MICROCMS_SERVICE_DOMAIN) {
-  throw new Error("MICROCMS_SERVICE_DOMAIN is required");
+  throw new Error('MICROCMS_SERVICE_DOMAIN is required');
 }
 if (!process.env.MICROCMS_API_KEY) {
-  throw new Error("MICROCMS_API_KEY is required");
+  throw new Error('MICROCMS_API_KEY is required');
 }
 
 export const client = createClient({
@@ -12,3 +13,14 @@ export const client = createClient({
   apiKey: process.env.MICROCMS_API_KEY,
   retry: true,
 });
+
+export const getBlogPosts = async (queries?: MicroCMSQueries): Promise<BlogPosts[]> => {
+  const data = await client.get({
+    endpoint: 'blog',
+    queries: {
+      limit: 99,
+      ...queries,
+    },
+  });
+  return data.contents;
+};
