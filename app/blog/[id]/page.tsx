@@ -13,7 +13,6 @@ export async function generateStaticParams() {
 export default async function Page({ params }: PageProps) {
   const { id } = await params;
   const post = await getBlogPost(id);
-
   const formattedDate = dayjs(post.publishedAt).format('YY.MM.DD');
 
   return (
