@@ -1,4 +1,4 @@
-import { BlogPosts } from '@/types/api';
+import { Blog, BlogPosts } from '@/types/api';
 import { createClient, MicroCMSQueries } from 'microcms-js-sdk';
 
 if (!process.env.MICROCMS_SERVICE_DOMAIN) {
@@ -14,13 +14,24 @@ export const client = createClient({
   retry: true,
 });
 
+export enum Endpoints {
+  BLOG = 'blog',
+}
+
 export const getBlogPosts = async (queries?: MicroCMSQueries): Promise<BlogPosts[]> => {
   const data = await client.get({
-    endpoint: 'blog',
+    endpoint: Endpoints.BLOG,
     queries: {
       limit: 99,
       ...queries,
     },
   });
   return data.contents;
+};
+
+export const getBlogPost = async (id: string): Promise<Blog> => {
+  const data = await client.get({
+    endpoint: `${Endpoints.BLOG}/${id}`,
+  });
+  return data;
 };
