@@ -29,9 +29,11 @@ export const getBlogPosts = async (queries?: MicroCMSQueries): Promise<BlogPosts
   return data.contents;
 };
 
-export const getBlogPost = async (id: string): Promise<Blog> => {
-  const data = await client.get({
-    endpoint: `${Endpoints.BLOG}/${id}`,
+export const getBlogPost = async (id: string, queries?: MicroCMSQueries): Promise<Blog> => {
+  const data = await client.getListDetail({
+    endpoint: Endpoints.BLOG,
+    contentId: id,
+    queries: { ...queries },
   });
   return data;
 };
