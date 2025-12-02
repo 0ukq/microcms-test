@@ -19,21 +19,26 @@ export enum Endpoints {
 }
 
 export const getBlogPosts = async (queries?: MicroCMSQueries): Promise<BlogPosts[]> => {
-  const data = await client.get({
-    endpoint: Endpoints.BLOG,
-    queries: {
-      limit: 99,
-      ...queries,
-    },
-  });
+  const data = await client
+    .get({
+      endpoint: Endpoints.BLOG,
+      queries: {
+        limit: 99,
+        ...queries,
+      },
+    })
+    .catch(error => console.error(error));
   return data.contents;
 };
 
 export const getBlogPost = async (id: string, queries?: MicroCMSQueries): Promise<Blog> => {
-  const data = await client.getListDetail({
-    endpoint: Endpoints.BLOG,
-    contentId: id,
-    queries: { ...queries },
-  });
+  const data = await client
+    .getListDetail({
+      endpoint: Endpoints.BLOG,
+      contentId: id,
+      queries: { ...queries },
+    })
+    .catch(error => console.error(error));
+
   return data;
 };
